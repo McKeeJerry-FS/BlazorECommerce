@@ -18,6 +18,19 @@ a, .btn-link {
     border-color: #1861ac;
 }
 
+.price {
+    color: green;
+}
+
+.media {
+    display: flex;
+    align-items: flex-start;
+}
+
+.media-body {
+    flex: 1;
+}
+
 .content {
     padding-top: 1.1rem;
 }
