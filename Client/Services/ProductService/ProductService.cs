@@ -1,4 +1,5 @@
 ﻿
+
 namespace BlazorECommerse.Client.Services.ProductService
 {
     public class ProductService : IProductService
@@ -10,6 +11,8 @@ namespace BlazorECommerse.Client.Services.ProductService
             _http = http;
         }
         public List<Product>? Products { get; set; }
+
+        public event Action ProductsChanged;
 
         public async Task<ServiceResponse<Product>> GetProduct(int productId)
         {
@@ -25,10 +28,14 @@ namespace BlazorECommerse.Client.Services.ProductService
             
         }
 
-        public async Task GetProducts()
+        public async Task GetProducts(string categoryUrl)
         {
-            var result = await _http.GetFromJsonAsync<ServiceResponse<List<Product>>>("api/product");
+            var result = categoryUrl == null ?
+                await _http.GetFromJsonAsync<ServiceResponse<List<Product>>>("api/product") :
+                await _http.GetFromJsonAsync<ServiceResponse<List<Product>>>($"api/product/category/{categoryUrl}");
             Products = result?.Data;
+
+            ProductsChanged.Invoke();
         }
     }
 }
