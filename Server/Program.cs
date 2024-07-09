@@ -3,7 +3,11 @@ global using Microsoft.EntityFrameworkCore;
 global using BlazorECommerse.Server.Data;
 global using BlazorECommerse.Server.Services.ProductServices;
 global using BlazorECommerse.Server.Services.ProductServices.Interfaces;
+global using BlazorECommerse.Server.Services.CategoryService;
+global using BlazorECommerse.Server.Services.CategoryService.Interfaces;
+
 using Microsoft.AspNetCore.ResponseCompression;
+
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -21,6 +25,8 @@ builder.Services.AddSwaggerGen();
 
 // Services
 builder.Services.AddScoped<IProductService, ProductService>();
+builder.Services.AddScoped<ICategoryService, CategoryService>();
+
 
 var app = builder.Build();
 
