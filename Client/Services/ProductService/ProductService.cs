@@ -56,7 +56,7 @@ namespace BlazorECommerse.Client.Services.ProductService
             if(Products?.Count == 0)
             {
                Meassage = "No products found.";
-                ProductsChanged.Invoke();
+               ProductsChanged.Invoke();
             }
         }
     }
