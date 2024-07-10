@@ -52,13 +52,13 @@ else
         var result = await ProductService.GetProduct(Id);
         if (!result.Success)
         {
-            message = result.Message;
+            message = result?.Message!;
             return;
         }
         else
         {
-            product = result.Data;
-            if(product!.Variants.Count > 0)
+            product = result?.Data;
+            if(product?.Variants.Count > 0)
             {
                 currentTypeId = product.Variants.First().ProductTypeId;
             }

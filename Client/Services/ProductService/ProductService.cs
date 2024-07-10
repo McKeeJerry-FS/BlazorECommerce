@@ -18,7 +18,7 @@ namespace BlazorECommerse.Client.Services.ProductService
         public async Task<ServiceResponse<Product>> GetProduct(int productId)
         {
             var result = await _http.GetFromJsonAsync<ServiceResponse<Product>>($"api/product/{productId}");
-            if (result is not null)
+            if (result != null)
             {
                 return result;
             }
@@ -29,26 +29,28 @@ namespace BlazorECommerse.Client.Services.ProductService
             
         }
 
-        public async Task GetProducts(string categoryUrl)
+        public async Task GetProducts(string? categoryUrl)
         {
             var result = categoryUrl == null ?
                 await _http.GetFromJsonAsync<ServiceResponse<List<Product>>>("api/product") :
                 await _http.GetFromJsonAsync<ServiceResponse<List<Product>>>($"api/product/category/{categoryUrl}");
-            Products = result?.Data;
+            if (result != null && result.Data != null)
+                Products = result.Data;
 
             ProductsChanged.Invoke();
         }
 
-        public async Task<List<string>> GetProductSearchSuggestions(string searchTerm)
+        public async Task<List<string>> GetProductSearchSuggestions(string? searchTerm)
         {
-            var result = await _http.GetFromJsonAsync<ServiceResponse<List<string>>>($"api/product/searchsuggestions/{searchTerm}");
-            return result?.Data!;
+            var result = await _http
+                .GetFromJsonAsync<ServiceResponse<List<string>>>($"api/product/searchsuggestions/{searchTerm}");
+            return result.Data;
         }
 
-        public async Task SearchProducts(string searchTerm)
+        public async Task SearchProducts(string? searchTerm)
         {
             var result = await _http.GetFromJsonAsync<ServiceResponse<List<Product>>>($"api/product/search/{searchTerm}");
-            if(result is not null && result.Data is not null)
+            if(result != null && result.Data != null)
             {
                 Products = result.Data;
                 //ProductsChanged.Invoke();
